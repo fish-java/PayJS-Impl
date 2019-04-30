@@ -2,13 +2,16 @@ import com.alibaba.fastjson.JSONObject;
 import okhttp3.*;
 import okio.BufferedSink;
 import org.junit.Assert;
+import request.CheckRequest;
+import request.CloseRequest;
+import request.NativeRequest;
+import response.CheckResponse;
+import response.CloseResponse;
 import response.NativeResponse;
+import util.ObjectConvertUtil;
 import util.SignUtil;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class PayJS {
     private String mchid;
@@ -22,54 +25,78 @@ public class PayJS {
         this.key = key;
     }
 
-    // https://help.payjs.cn/api-lie-biao/sao-ma-zhi-fu.html
-    public NativeResponse apiNative(String out_trade_no, int total_fee) {
+    // 统一获得请求查询字符串
+    private String getRequestParam(){
+        return null;
+    }
 
-        // 创建请求url
-        HttpUrl.Builder urlBuilder
-                = HttpUrl.parse(baseUrl + "/native").newBuilder();
-        urlBuilder.addQueryParameter("mchid", mchid);
-        urlBuilder.addQueryParameter("out_trade_no", out_trade_no);
-        urlBuilder.addQueryParameter("total_fee", String.valueOf(total_fee));
-
-        // 获得密钥
-        Map<String, String> map = new HashMap<>();
-        map.put("mchid", mchid);
-        map.put("out_trade_no", out_trade_no);
-        map.put("total_fee", String.valueOf(total_fee));
-        String sign = SignUtil.getSign(map, key);
-
-        urlBuilder.addQueryParameter("sign", sign);
-        // 获得最终的请求url
-        String url = urlBuilder.build().toString();
-
-        // get 请求也是可以的
-        Request request = new Request.Builder()
+    // 统一使用它发起http请求, 并将放回的响应体解析成对应对象
+    private <T> T doRequest(String url, Class<T> clazz){
+        // 对于PayJS get 请求是可以代替Post请求的, OkHTTP 强制post请求携带请求体
+        Request httpRequest = new Request.Builder()
                 .url(url)
                 .build();
 
         // 准备发起请求
-        Call call = client.newCall(request);
+        Call call = client.newCall(httpRequest);
 
-        Response response = null;
+        Response httpResponse = null;
 
         try {
             // 发起请求并接受响应
-            response = call.execute();
+            httpResponse = call.execute();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        String responseString = "";
+        String responseString = null;
+
         try {
             // 获得响应体内容
-            responseString = response.body().string();
+            responseString = httpResponse.body().string();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return JSONObject.parseObject(responseString, NativeResponse.class);
+        return JSONObject.parseObject(responseString, clazz);
     }
+
+    // https://help.payjs.cn/api-lie-biao/sao-ma-zhi-fu.html
+    public NativeResponse apiNative(NativeRequest requestObject) {
+        if (requestObject.getMchid() == null) {
+            requestObject.setMchid(mchid);
+        }
+        // 获得sign并设置
+        String sign = SignUtil.getSign(requestObject, key);
+        requestObject.setSign(sign);
+
+        String qs = ObjectConvertUtil.toQS(requestObject);
+
+        // 创建请求url
+        String url = baseUrl + "/native?" + qs;
+
+        return doRequest(url, NativeResponse.class);
+    }
+
+    public CheckResponse apiCheck(CheckRequest requestObj){
+        String sign = SignUtil.getSign(requestObj, key);
+        requestObj.setSign(sign);
+        String qs = ObjectConvertUtil.toQS(requestObj);
+
+        String url = baseUrl + "/check?" + qs;
+
+        return doRequest(url, CheckResponse.class);
+    }
+
+    public CloseResponse apiClose(CloseRequest requestObj){
+        String sign = SignUtil.getSign(requestObj, key);
+        requestObj.setSign(sign);
+        String qs = ObjectConvertUtil.toQS(requestObj);
+
+        String url = baseUrl + "/close?" + qs;
+
+        return doRequest(url, CloseResponse.class);
+    }
+
 
 
     private String out_trade_no;

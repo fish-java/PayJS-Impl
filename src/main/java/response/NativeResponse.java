@@ -8,11 +8,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class NativeResponse {
+    // 通过这个字段判断有没有错误
     // 1:请求成功，0:请求失败
     private Integer return_code;
 
     // 发生错误是的响应信息
-    private String msg;
+    // 好像已经被PayJS废弃了，文档没有说明
+    //    但是出错信息在return_msg 这个字段
+    // private String msg;
 
     // 返回的消息
     private String return_msg;
