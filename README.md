@@ -32,3 +32,16 @@ Getter Setter方法来设置
 
 ### 实现类
 推荐使用PayJSUnirest作为实现类
+
+## 使用
+1. clone到本地
+2. 运行mvn install 将这个SDK安装到本地厂库
+3. 在其他项目中使用pom文件引入就行了
+
+  ```xml
+    <groupId>com.github.fish56</groupId>
+    <artifactId>PayJS</artifactId>
+    <version>1.0</version>
+  ```
+  
+具体用法参考测试用例以及注释
