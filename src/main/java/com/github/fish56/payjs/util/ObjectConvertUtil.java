@@ -1,13 +1,15 @@
-package util;
+package com.github.fish56.payjs.util;
 
-import com.alibaba.fastjson.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import okhttp3.internal.http.HttpMethod;
 
 import java.util.Map;
 
 public class ObjectConvertUtil {
-    // 对象转化为查询字符串
+    /**
+     * 对象转化为查询字符串
+     * @param object
+     * @return
+     */
     public static String toQS(Object object){
 
         // 对象转化为map

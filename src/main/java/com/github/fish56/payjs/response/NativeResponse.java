@@ -1,4 +1,4 @@
-package response;
+package com.github.fish56.payjs.response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,24 +12,22 @@ public class NativeResponse {
     // 1:请求成功，0:请求失败
     private Integer return_code;
 
-    // 发生错误是的响应信息
-    // 好像已经被PayJS废弃了，文档没有说明
-    //    但是出错信息在return_msg 这个字段
-    // private String msg;
-
     // 返回的消息
     private String return_msg;
 
     /**
-     * payjs端订单号
+     * payjs端下发的订单号
      */
     private String payjs_order_id;
 
     // 用户发送的订单id
     private String out_trade_no;
 
+    // 二维码地址
+    private String qrcode;
+
     /**
-     * 数据签名
+     * 服务器返回的数据签名
      */
     private String sign;
 

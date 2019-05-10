@@ -1,4 +1,4 @@
-package util;
+package com.github.fish56.payjs.util;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.PropertyNamingStrategy;
 import com.alibaba.fastjson.serializer.SerializeConfig;

@@ -1,4 +1,4 @@
-# PayJS
+# com.github.fish56.payjs.PayJSOkHttp
 使用PayJS来获取支付请求
 
 ## 设计思路
@@ -13,10 +13,10 @@
 的参数是必填的字段，对于选填的字段用户可以通过
 Getter Setter方法来设置
 
-#### PayJS这个类
-创建时需要传入用户mchid以及key
+### PayJS这个抽象类
+提供了通用的API接口，创建时需要传入用户mchid以及key。
 
-使用时
+使用时：
 
 - apiNative
   
@@ -29,3 +29,6 @@ Getter Setter方法来设置
 函数名和请求的url是保持一致的
 
 具体用法查考测试用例
+
+### 实现类
+推荐使用PayJSUnirest作为实现类

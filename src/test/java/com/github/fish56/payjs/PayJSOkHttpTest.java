@@ -1,20 +1,19 @@
+package com.github.fish56.payjs;
+
 import com.alibaba.fastjson.JSONObject;
+import com.github.fish56.payjs.PayJSOkHttp;
 import org.junit.Test;
-import request.CheckRequest;
-import request.CloseRequest;
-import request.NativeRequest;
-import response.CheckResponse;
-import response.CloseResponse;
-import response.NativeResponse;
+import com.github.fish56.payjs.request.CheckRequest;
+import com.github.fish56.payjs.request.CloseRequest;
+import com.github.fish56.payjs.request.NativeRequest;
+import com.github.fish56.payjs.response.CheckResponse;
+import com.github.fish56.payjs.response.CloseResponse;
+import com.github.fish56.payjs.response.NativeResponse;
 
 import static org.junit.Assert.*;
 
-public class PayJSTest {
-    private String mchid = "1528140051";
-
-    // 你的商户密钥
-    private String key = "xxxxxx";
-    PayJS payJS = new PayJS(mchid, key);
+public class PayJSOkHttpTest extends PayJSTest {
+    private PayJSOkHttp payJSOkHttp = new PayJSOkHttp(mchid, key);
 
     @Test
     public void apiNative() {
@@ -22,7 +21,7 @@ public class PayJSTest {
         NativeRequest request = new NativeRequest(21, "2332");
 
         // 调用相关方法并获得结果
-        NativeResponse response = payJS.apiNative(request);
+        NativeResponse response = payJSOkHttp.apiNative(request);
         if (response.getReturn_code() != 1) {
             throw new RuntimeException("出错了: " + response.getReturn_msg());
         }
@@ -36,7 +35,7 @@ public class PayJSTest {
 
         // 故意传入错误的商户id
         request.setMchid("123");
-        NativeResponse response = payJS.apiNative(request);
+        NativeResponse response = payJSOkHttp.apiNative(request);
         if (response.getReturn_code() == 0) {
             System.out.println("出错了: " + response.getReturn_msg());
         } else {
@@ -49,7 +48,7 @@ public class PayJSTest {
     public void check(){
         String payjs_order_id = "2019043012232600733973651";
         CheckRequest request = new CheckRequest(payjs_order_id);
-        CheckResponse response = payJS.apiCheck(request);
+        CheckResponse response = payJSOkHttp.apiCheck(request);
 
         assertTrue(response.getReturn_code().intValue() == 1);
 
@@ -65,7 +64,7 @@ public class PayJSTest {
         // 关闭一个订单
         String payjs_order_id = "2019043012232600733973651";
         CloseRequest request = new CloseRequest(payjs_order_id);
-        CloseResponse response = payJS.apiClose(request);
+        CloseResponse response = payJSOkHttp.apiClose(request);
 
         assertTrue(response.getReturn_code().intValue() == 1);
 

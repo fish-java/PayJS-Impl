@@ -1,10 +1,8 @@
-package util;
+package com.github.fish56.payjs.util;
 
+import com.github.fish56.payjs.util.ObjectConvertUtil;
 import org.junit.Test;
-import request.NativeRequest;
-import response.NativeResponse;
-
-import static org.junit.Assert.*;
+import com.github.fish56.payjs.request.NativeRequest;
 
 public class ObjectConvertUtilTest {
 

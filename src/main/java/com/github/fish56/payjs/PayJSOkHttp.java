@@ -1,26 +1,26 @@
+package com.github.fish56.payjs;
+
 import com.alibaba.fastjson.JSONObject;
 import okhttp3.*;
-import okio.BufferedSink;
-import org.junit.Assert;
-import request.CheckRequest;
-import request.CloseRequest;
-import request.NativeRequest;
-import response.CheckResponse;
-import response.CloseResponse;
-import response.NativeResponse;
-import util.ObjectConvertUtil;
-import util.SignUtil;
+import com.github.fish56.payjs.request.CheckRequest;
+import com.github.fish56.payjs.request.CloseRequest;
+import com.github.fish56.payjs.request.NativeRequest;
+import com.github.fish56.payjs.response.CheckResponse;
+import com.github.fish56.payjs.response.CloseResponse;
+import com.github.fish56.payjs.response.NativeResponse;
+import com.github.fish56.payjs.util.ObjectConvertUtil;
+import com.github.fish56.payjs.util.SignUtil;
 
 import java.io.IOException;
 
-public class PayJS {
+public class PayJSOkHttp {
     private String mchid;
     private String key;
     private String baseUrl = "https://payjs.cn/api";
 
     private OkHttpClient client = new OkHttpClient();
 
-    public PayJS(String mchid, String key){
+    public PayJSOkHttp(String mchid, String key){
         this.mchid = mchid;
         this.key = key;
     }

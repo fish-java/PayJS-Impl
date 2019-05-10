@@ -1,4 +1,4 @@
-package response;
+package com.github.fish56.payjs.response;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,8 +15,6 @@ public class CloseResponse {
      * payjs端订单号
      */
     private String payjs_order_id;
-
-
 
     /**
      * 数据签名
